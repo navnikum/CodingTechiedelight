@@ -103,7 +103,7 @@ int countUniquePairs(vector<int> A, int sum){
 			seen.insert(cpl);
 			seen.insert(A[i]);
 		}
-		A.insert(A[i]);		
+		nums.insert(A[i]);		
 	}
 	return count;
 }
