@@ -44,13 +44,27 @@ void reverse(vector<int> &A, int l, int r){
 }
 
 void rotate(vector<int> &A, int n, int r){
+	// reverse k elements
 	reverse (A, 0, r-1);
+	// reverse n-k elements
 	reverse (A, r, n-1);
+	// reverse array
 	reverse (A, 0, n-1);
 }
 
 
 //Exercise : Right rotate array by 'r'
+
+void rotate(vector<int> &A, int n, int r){
+	// reverse k elements
+	reverse (A, n-k, n-1);
+	// reverse n-k elements
+	reverse (A, 0, n-k-1);
+	// reverse array
+	reverse (A, 0, n-1);
+}
+
+
 
 void rotate(vector<int> &A, int n, int r){
 	reverse (A, 0, n-1);
