@@ -26,7 +26,7 @@ void DFS(int s)
     { 
         s = stk.top();  
       	cout << s << " "; 
-		stk.pop(); 
+	stk.pop(); 
    
         for (auto i : adj[s]) {
             if (!visited[i]){ 
@@ -51,7 +51,7 @@ void BFS(int s)
     { 
         s = queue.front();  
       	cout << s << " "; 
-		queue.pop(); 
+	queue.pop(); 
    
         for (auto i : adj[s]) {
             if (!visited[i]){ 
