@@ -150,8 +150,8 @@ public:
     			if (grid[i][j] == 1  && !visited[i][j]){
     				dfs(grid, visited, i, j);
     				res = max(res, curr);   
-                    curr = 0;
-                }
+                    		curr = 0;
+                	}
     		}
     	}
     	return res;         
@@ -211,8 +211,8 @@ public:
     			if (grid[i][j] == 0  && !visited[i][j]){
     				// check is valid closed island
     				if (dfs(grid, visited, i, j))
-                    	res++ ;  	
-                }
+                    			res++ ;  	
+                	}
     		}
     	}
     	return res;     
@@ -237,8 +237,8 @@ public:
     	vector<bool> visited(n, false);
     	dfs(rooms, visited, 0);
 
-    	for(auto i : visited)
-    		if (i == false)
+    	for(auto it : visited)
+    		if (it == false)
     			return false;
 
     	return true;
@@ -260,8 +260,8 @@ class Solution {
     		if(!dfs(graph, visited, it))
     			return false;
     		
-    	visited[v] = 1; // node is safe nocycle
-    	return true;
+		visited[v] = 1; // node is safe nocycle
+		return true;
 	}
 
 public:
@@ -277,3 +277,4 @@ public:
      	return res;      
     }
 };
+
