@@ -150,8 +150,8 @@ public:
     			if (grid[i][j] == 1  && !visited[i][j]){
     				dfs(grid, visited, i, j);
     				res = max(res, curr);   
-                    		curr = 0;
-                	}
+                    curr = 0;
+                }
     		}
     	}
     	return res;         
@@ -176,6 +176,34 @@ public:
     	rows = image.size(), cols = image[0].size();
     	dfs(image, sr, sc, image[sr][sc], newColor);
     	return image;        
+    }
+};
+
+// https://leetcode.com/problems/coloring-a-border/
+class Solution {
+    int rows, cols;
+    void dfs(vector<vector<int>>& grid, int i, int j, int c){
+        if (i < 0 || j < 0 || i > rows-1 || j > cols-1 || grid[i][j] != c)      return;
+        
+        grid[i][j] = -c;    // -c for visited but dont't know if on border or inside
+        dfs(grid, i+1, j, c);
+        dfs(grid, i-1, j, c);
+        dfs(grid, i, j+1, c);
+        dfs(grid, i, j-1, c);
+        // check if not on grid border and surrounded by same color
+        if (i > 0  && j > 0  && i < rows-1  && j < cols-1)
+            if (c == abs(grid[i+1][j]) && c == abs(grid[i-1][j]) && c == abs(grid[i][j+1]) && c == abs(grid[i][j-1]))       
+                grid[i][j] = c;
+    }
+
+public:
+    vector<vector<int>> colorBorder(vector<vector<int>>& grid, int r0, int c0, int color) {
+        rows = grid.size();  cols = grid[0].size();
+        dfs(grid, r0, c0, grid[r0][c0]);
+        for (auto i = 0; i < grid.size(); ++i)
+            for (auto j = 0; j < grid[i].size(); ++j) 
+                grid[i][j] = grid[i][j] < 0 ? color : grid[i][j];
+        return grid;        
     }
 };
 
@@ -211,8 +239,8 @@ public:
     			if (grid[i][j] == 0  && !visited[i][j]){
     				// check is valid closed island
     				if (dfs(grid, visited, i, j))
-                    			res++ ;  	
-                	}
+                    	res++ ;  	
+                }
     		}
     	}
     	return res;     
@@ -237,8 +265,8 @@ public:
     	vector<bool> visited(n, false);
     	dfs(rooms, visited, 0);
 
-    	for(auto it : visited)
-    		if (it == false)
+    	for(auto i : visited)
+    		if (i == false)
     			return false;
 
     	return true;
@@ -260,8 +288,8 @@ class Solution {
     		if(!dfs(graph, visited, it))
     			return false;
     		
-		visited[v] = 1; // node is safe nocycle
-		return true;
+    	visited[v] = 1; // node is safe nocycle
+    	return true;
 	}
 
 public:
@@ -278,3 +306,59 @@ public:
     }
 };
 
+
+
+// Misc practice
+// Hash/DFS
+// https://leetcode.com/problems/employee-importance/
+/*
+// Definition for Employee.
+class Employee {
+public:
+    int id;
+    int importance;
+    vector<int> subordinates;
+};
+*/
+
+class Solution {
+    void dfs(unordered_map<int, Employee*>& mp, int id, int& sum){
+        sum+= mp[id]->importance;
+        for (auto x : mp[id]->subordinates)
+            dfs(mp, x, sum);
+    }
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        unordered_map<int, Employee*> mp;
+        for (auto employee : employees)
+            mp[employee->id] = employee;
+        int sum = 0;
+        dfs(mp, id, sum);
+        return sum;        
+    }
+};
+
+
+// https://leetcode.com/problems/find-the-town-judge/
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        if(trust.empty() && n==1)
+            return 1;
+        // calculated indegree, outdegree
+        vector<int> out(n+1,0);
+        vector<int> in(n+1,0);
+
+        for(auto edge : trust){
+            out[edge[0]]++;
+            in[edge[1]]++;
+        }
+
+        for(int i=0;i<=n;i++){
+            if(out[i]==0 && in[i]==n-1)
+                return i;
+        }
+
+        return -1;
+    }
+};
